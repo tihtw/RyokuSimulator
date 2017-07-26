@@ -1,0 +1,200 @@
+body {
+  background-color: white;
+}
+.block,
+.block1 {
+  background-color: red;
+}
+.block2 {
+  background-color: black;
+}
+
+.state-pannel {
+  vertical-align: bottom;
+  min-width: 500px;
+}
+.state-pannel .power-light {
+  margin-right: 14px;
+}
+.log-pannel {
+  width: auto;
+  height: 19%;
+  margin-top: 20px;
+  min-width: 400px;
+}
+.log-pannel textarea {
+  max-width: 100%;
+  min-width: 100%;
+  min-height: 194px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 3px;
+  border-color: black;
+}
+
+.function-pannel {
+  min-width: 500px;
+}
+
+.function-pannel .power-group {
+  margin-top: 20px;
+}
+.function-pannel .power-radio {
+  height: 20px;
+  vertical-align: middle;
+}
+
+.function-pannel .fan-group {
+  margin-top: 10px;
+}
+.function-pannel .fan-radio {
+  height: 18px;
+  vertical-align: middle;
+  margin: 0px;
+}
+.function-pannel .radio-inline .radio-label,
+.function-pannel .radio .radio-label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.function-pannel .slider {
+  margin-top: 20px;
+  vertical-align: center;
+}
+.function-pannel .slider.slider-horizontal {
+  width: 100%;
+}
+
+.function-pannel .slider-handle {
+  background: white;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #979797;
+}
+
+.right-pannel {
+    margin-top: 40px;
+}
+  
+.device-pannel {
+  min-width: 500px;
+}
+
+.device-pannel .device-input .form-control {
+  margin-top: 7px;
+  margin-bottom: 0px;
+  border-radius: 3px;
+}
+
+.device-pannel .device-input .btn {
+  margin-top: 7px;
+  margin-left: 7px;
+  border-radius: 3px;
+  width: 81px;
+}
+
+.remote-pannel {
+  margin-top: 75px;
+  width: 270px;
+  height: 590px;
+  background-color: #5ac8e1;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #979797;
+  border-radius: 8px;
+}
+.remote-screen {
+  margin-top: 30px;
+  margin-left: 42px;
+  margin-right: 42px;
+  height: 194px;
+  background-color: white;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #979797;
+}
+.remote-screen .remote-temp .temp-text {
+  font-size: 72px;
+  margin-left: 27px;
+}
+.remote-screen .remote-divider {
+  margin: 0px 16px 0px 16px;
+  color: #979797;
+}
+.remote-group {
+  margin-top: 8px;
+  margin-left: 42px;
+  margin-right: 42px;
+  display: block;
+}
+.remote-button {
+  margin: 12px 0px 12px 0px;
+  width: 73px;
+}
+.remote-fan {
+  margin-left: 40px;
+}
+.remote-fan-group {
+  margin-left: 11px;
+}
+.remote-fan-level {
+  margin: 8px 4px 8px 4px;
+}
+.cut-electricity {
+  margin-top: 31px; 
+}
+.simu-intro {
+  margin-top: 73px;
+  min-width: 220px;
+}
+@media (max-width: 768px) {
+  .sub-title {
+    font-size: 20px;
+  }
+  .state-pannel .power-light {
+    width: 20px;
+    height: 20px;
+  }
+}
+@media (min-width: 768px) {
+  .sub-title {
+    font-size: 22px;
+  }
+  .state-pannel .power-light {
+    width: 20px;
+    height: 20px;
+  }
+}@media (min-width: 992px) {
+  .sub-title {
+    font-size: 30px;
+  }
+  .state-pannel .power-light {
+    width: 24px;
+    height: 24px;
+  }
+  .function-pannel .power-group,
+  .function-pannel .slider {
+    margin-top: 30px;
+  }
+  .function-pannel .fan-group {
+    margin-top: 20px;
+  }
+  .right-pannel {
+    margin-top: 76px;
+  }
+  .simu-intro {
+    margin-left: 43px;
+  }
+}@media (min-width: 1200px) {
+  .sub-title {
+    font-size: 36px;
+  }
+  .sub-heading {
+    font-size: 20px;
+  }
+  .state-pannel .power-light {
+    width: 30px;
+    height: 30px;
+  }
+}
