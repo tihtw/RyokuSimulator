@@ -1,5 +1,6 @@
-$(document).ready(function() {
-	$('input:radio[id^="power-radio-"]').on("change", function(event) {
+//var device_session = $('input[id="device-session"]').value;
+$(document).ready(function () {
+	$('input:radio[id^="power-radio-"]').on("change", function (event) {
 		var id = $(this).attr('id');
 
 		switch (id) {
@@ -14,7 +15,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('input:radio[id^="fan-radio-"]').on("change", function(event) {
+	$('input:radio[id^="fan-radio-"]').on("change", function (event) {
 		var id = $(this).attr('id');
 
 		switch (id) {
@@ -35,14 +36,13 @@ $(document).ready(function() {
 		}
 	});
 	$('#inTempSlider').slider();
-	$('#inTempSlider').on("slide", function(slideEvt) {
+	$('#inTempSlider').on("slide", function (slideEvt) {
 		$("#inTempSliderVal").text(slideEvt.value);
 	});
 
 	$('#airConTempSlider').slider();
-	$('#airConTempSlider').on("slide", function(slideEvt) {
+	$('#airConTempSlider').on("slide", function (slideEvt) {
 		$("#airConTempSliderVal").text(slideEvt.value);
-		$("#remote-temp-value").text(slideEvt.value);
 	});
 })
 
@@ -60,22 +60,32 @@ function tooglePower() {
 }
 
 function toogleFan() {
+	//console.log($('#remote-fan-0').value);
+	$('#remote-fan-0').css('opacity', 0.1);
+	$('#remote-fan-1').css('opacity', 0.1);
+	$('#remote-fan-2').css('opacity', 0.1);
+	$('#remote-fan-3').css('opacity', 0.1);
+
 	if ($('input[id="fan-radio-0"]:checked').val() == "on") {
-		console.log("自動");
+		//console.log("自動");
 		$('input[id="fan-radio-1"]').prop("checked", true);
+		$('#remote-fan-1').css('opacity', 1);
 		$("#fan-state-val").text('強');
 	} else if ($('input[id="fan-radio-1"]:checked').val() == "on") {
-		console.log("強");
+		//console.log("強");
 		$('input[id="fan-radio-2"]').prop("checked", true);
+		$('#remote-fan-2').css('opacity', 1);
 		$("#fan-state-val").text('中');
 	} else if ($('input[id="fan-radio-2"]:checked').val() == "on") {
-		console.log("中");
+		//console.log("中");
 		$('input[id="fan-radio-3"]').prop("checked", true);
+		$('#remote-fan-3').css('opacity', 1);
 		$("#fan-state-val").text('弱');
-		
+
 	} else if ($('input[id="fan-radio-3"]:checked').val() == "on") {
-		console.log("弱");
+		//console.log("弱");
 		$('input[id="fan-radio-0"]').prop("checked", true);
+		$('#remote-fan-0').css('opacity', 1);
 		$("#fan-state-val").text('自動');
 	} else {
 		console.log($('input[id="fan-radio-0"]:checked').val());
@@ -86,11 +96,11 @@ function toogleFan() {
 }
 
 function warnUp() {
-	var airConTemp = parseInt($('#airConTempSlider').slider('getValue'));
+	var airConTemp = parseInt($('#remote-temp-value').text());
 	if (airConTemp < 32) {
-		var newTemp = airConTemp+1;
-		$('#airConTempSliderVal').text(''+newTemp);
-		$("#remote-temp-value").text(''+newTemp);
+		var newTemp = airConTemp + 1;
+		$('#airConTempSliderVal').text('' + newTemp);
+		$("#remote-temp-value").text('' + newTemp);
 		$('#airConTempSlider').slider('setValue', newTemp);
 	} else {
 
@@ -98,11 +108,11 @@ function warnUp() {
 }
 
 function coolDown() {
-	var airConTemp = parseInt($('#airConTempSlider').slider('getValue'));
+	var airConTemp = parseInt($('#remote-temp-value').text());
 	if (airConTemp > 16) {
-		var newTemp = airConTemp-1;
-		$('#airConTempSliderVal').text(''+newTemp);
-		$("#remote-temp-value").text(''+newTemp);
+		var newTemp = airConTemp - 1;
+		$('#airConTempSliderVal').text('' + newTemp);
+		$("#remote-temp-value").text('' + newTemp);
 		$('#airConTempSlider').slider('setValue', newTemp);
 	} else {
 
