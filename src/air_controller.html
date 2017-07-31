@@ -28,7 +28,7 @@
 							<div class="col-xs-6">
 								<div>
 									<img class="pull-left power-light" src="../res/images/online.png" />
-									<h2 class="sub-title">ONLINE</h2>
+									<h2 class="sub-title" id="online-text">ONLINE</h2>
 								</div>
 							</div>
 						</div>
@@ -129,7 +129,7 @@
 								<div class="input-group">
 									<input type="text" id="device-id" class="form-control" value="01EA33ED1122" readonly>
 									<span class="input-group-btn">
-        						<button class="btn btn-default" type="button">重新生成</button>
+        						<button class="btn btn-default" type="button" onclick="renewId()">重新生成</button>
    								</span>
 								</div>
 							</div>
@@ -144,7 +144,7 @@
 								<div class="input-group">
 									<input type="text" id="device-session" class="form-control" value="462869a2819e968edf1532f1a5dc33515c3555fe5798c052ff70bb0ec285e223" readonly>
 									<span class="input-group-btn">
-        						<button class="btn btn-default" type="button">重新配對</button>
+        						<button class="btn btn-default" type="button" onclick="renewSession()">重新配對</button>
    								</span>
 								</div>
 							</div>
@@ -159,13 +159,13 @@
 								<div class="input-group">
 									<input type="text" class="form-control" value="wss://sim.tih.tw">
 									<span class="input-group-btn">
-        						<button class="btn btn-default" type="button">中斷網路</button>
+        						<button class="btn btn-default" id="network-button" type="button" onclick="toogleNetwork()">中斷網路</button>
    								</span>
 								</div>
 							</div>
 						</div>
 					</div>
-					<button class="btn btn-default cut-electricity" type="button">中斷電力</button>
+					<button class="btn btn-default cut-electricity" type="button" onclick="toogleElectricity()">中斷電力</button>
 					<div class="row">
 						<div class="col-xs-6 pull-left">
 							<div class="remote-pannel">

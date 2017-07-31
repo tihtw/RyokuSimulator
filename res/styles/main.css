@@ -146,7 +146,7 @@ body {
 }
 .simu-intro {
   margin-top: 73px;
-  min-width: 220px;
+  min-width: 250px;
 }
 @media (max-width: 768px) {
   .sub-title {
@@ -184,7 +184,7 @@ body {
     margin-top: 76px;
   }
   .simu-intro {
-    margin-left: 43px;
+    margin-left: 33px;
   }
 }@media (min-width: 1200px) {
   .sub-title {
