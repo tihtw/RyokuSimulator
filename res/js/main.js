@@ -28,10 +28,12 @@ sampoSocket.onmessage = function (e) {
 			$('#online-text').text('ONLINE');
 			$('.power-light').attr('src', '../res/images/online.png');
 			$('#network-button').text("中斷網路");
+			$('.cut-electricity').text("中斷電力");
 		} else {
 			$('#online-text').text('OFFLINE');
 			$('.power-light').attr('src', '../res/images/offline.png');
 			$('#network-button').text("連接網路");
+			$('.cut-electricity').text("恢復電力");
 		}
 		log("set device " + device_id + " online to " + online);
 	}
@@ -168,12 +170,14 @@ function renewKey() {
 function toogleNetwork() {
 	if ($('#online-text').text() == "ONLINE") {
 		// ONLINE -> OFFLINE
+		$('.cut-electricity').text("恢復電力");
 		$('#online-text').text('OFFLINE');
 		$('.power-light').attr('src', '../res/images/offline.png');
 		$('#network-button').text("連接網路");
 		setOnline(false);
 	} else {
 		// OFFLINE -> ONLINE
+		$('.cut-electricity').text("中斷電力");
 		$('#online-text').text('ONLINE');
 		$('.power-light').attr('src', '../res/images/online.png');
 		$('#network-button').text("中斷網路");
@@ -184,8 +188,16 @@ function toogleNetwork() {
 function toogleElectricity() {
 	if ($('.cut-electricity').text() == "中斷電力") {
 		$('.cut-electricity').text("恢復電力");
+		$('#online-text').text('OFFLINE');
+		$('.power-light').attr('src', '../res/images/offline.png');
+		$('#network-button').text("連接網路");
+		setOnline(false);
 	} else {
 		$('.cut-electricity').text("中斷電力");
+		$('#online-text').text('ONLINE');
+		$('.power-light').attr('src', '../res/images/online.png');
+		$('#network-button').text("中斷網路");
+		setOnline(true);
 	}
 }
 
