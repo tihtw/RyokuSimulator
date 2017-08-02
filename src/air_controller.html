@@ -36,7 +36,7 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="log-pannel">
-								<textarea rows="5"></textarea>
+								<textarea id="log-frame" rows="5" readonly></textarea>
 							</div>
 						</div>
 					</div>
@@ -142,9 +142,9 @@
 							</div>
 							<div class="col-xs-8 device-input">
 								<div class="input-group">
-									<input type="text" id="device-session" class="form-control" value="462869a2819e968edf1532f1a5dc33515c3555fe5798c052ff70bb0ec285e223" readonly>
+									<input type="text" id="device-key" class="form-control" value="" readonly>
 									<span class="input-group-btn">
-        						<button class="btn btn-default" type="button" onclick="renewSession()">重新配對</button>
+        						<button class="btn btn-default" type="button" onclick="renewKey()">重新配對</button>
    								</span>
 								</div>
 							</div>
@@ -157,7 +157,7 @@
 							</div>
 							<div class="col-xs-8 device-input">
 								<div class="input-group">
-									<input type="text" class="form-control" value="wss://sim.tih.tw">
+									<input type="text" class="form-control" value="ws://sampo.tih.tw:8080/json">
 									<span class="input-group-btn">
         						<button class="btn btn-default" id="network-button" type="button" onclick="toogleNetwork()">中斷網路</button>
    								</span>
