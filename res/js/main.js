@@ -20,7 +20,7 @@ sampoSocket.onmessage = function (e) {
 			$("#power-state-val").text('關機');
 			$('input[id="power-radio-1"]').prop("checked", true);
 		}
-		log("set device " + device_id + "power to " + status);
+		log("set device " + device_id + " power to " + status);
 	}
 	if (data["online"] != undefined) {
 		var online = (data["online"] == "true") ? true : false;
@@ -33,7 +33,7 @@ sampoSocket.onmessage = function (e) {
 			$('.power-light').attr('src', '../res/images/offline.png');
 			$('#network-button').text("連接網路");
 		}
-		log("set device " + device_id + "online to " + online);
+		log("set device " + device_id + " online to " + online);
 	}
 	if (data["fan_level"] != undefined) {
 		var level = Number(data["fan_level"]);
@@ -57,18 +57,20 @@ sampoSocket.onmessage = function (e) {
 			default:
 				break;
 		}
+		log("set device " + device_id + " fan level to " + level);
 	}
 	if (data["target_temperature_range"] != undefined) {
 		var array = data["target_temperature_range"].replace('[','').replace(']','').split(',').map(Number);
 		var temperature = array[0];
 			$("#airConTempSliderVal").text(temperature);
 			$('#airConTempSlider').slider('setValue', temperature);
+			log("set device " + device_id + " temperature to " + temperature);
 	}
 };
 sampoSocket.onopen = function (e) {
-	//renewId();
-	init();
+	renewId();
 	renewKey();
+	init();
 };
 
 $(document).ready(function () {
@@ -151,7 +153,6 @@ function renewId() {
 	}
 	$('input[id="device-id"]').val(id);
 	device_id = id;
-	init();
 }
 
 function renewKey() {
