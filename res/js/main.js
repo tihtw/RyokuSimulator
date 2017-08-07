@@ -26,12 +26,12 @@ sampoSocket.onmessage = function (e) {
 		var online = (data["online"] == "true") ? true : false;
 		if (online) {
 			$('#online-text').text('ONLINE');
-			$('.power-light').attr('src', '../res/images/online.png');
+			$('.power-light').attr('src', 'res/images/online.png');
 			$('#network-button').text("中斷網路");
 			$('.cut-electricity').text("中斷電力");
 		} else {
 			$('#online-text').text('OFFLINE');
-			$('.power-light').attr('src', '../res/images/offline.png');
+			$('.power-light').attr('src', 'res/images/offline.png');
 			$('#network-button').text("連接網路");
 			$('.cut-electricity').text("恢復電力");
 		}
