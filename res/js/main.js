@@ -189,7 +189,7 @@ function toogleElectricity() {
 	if ($('.cut-electricity').text() == "中斷電力") {
 		$('.cut-electricity').text("恢復電力");
 		$('#online-text').text('OFFLINE');
-		$('.power-light').attr('src', '../res/images/offline.png');
+		$('.power-light').attr('src', 'res/images/offline.png');
 		$('#network-button').text("連接網路");
 		setOnline(false);
 	} else {
