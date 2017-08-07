@@ -172,14 +172,14 @@ function toogleNetwork() {
 		// ONLINE -> OFFLINE
 		$('.cut-electricity').text("恢復電力");
 		$('#online-text').text('OFFLINE');
-		$('.power-light').attr('src', '../res/images/offline.png');
+		$('.power-light').attr('src', 'res/images/offline.png');
 		$('#network-button').text("連接網路");
 		setOnline(false);
 	} else {
 		// OFFLINE -> ONLINE
 		$('.cut-electricity').text("中斷電力");
 		$('#online-text').text('ONLINE');
-		$('.power-light').attr('src', '../res/images/online.png');
+		$('.power-light').attr('src', 'res/images/online.png');
 		$('#network-button').text("中斷網路");
 		setOnline(true);
 	}
@@ -195,7 +195,7 @@ function toogleElectricity() {
 	} else {
 		$('.cut-electricity').text("中斷電力");
 		$('#online-text').text('ONLINE');
-		$('.power-light').attr('src', '../res/images/online.png');
+		$('.power-light').attr('src', 'res/images/online.png');
 		$('#network-button').text("中斷網路");
 		setOnline(true);
 	}
