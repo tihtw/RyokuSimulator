@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html class="en">
+
+<head>
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+	<title>MaidWhite Air Controller Simulator</title>
+
+	<link rel="stylesheet" type="text/css" href="../res/styles/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../res/styles/main.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.1/css/bootstrap-slider.min.css">
+
+	<script src="res/js/jquery.min.js"></script>
+	<script src="res/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.1/bootstrap-slider.min.js"></script>
+	<script src="res/js/main.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="state-pannel">
+						<div class="row">
+							<div class="col-xs-6">
+								<h2 class="sub-title">網頁冷氣機01</h2>
+							</div>
+							<div class="col-xs-6">
+								<div>
+									<img class="pull-left power-light" src="../res/images/online.png" />
+									<h2 class="sub-title" id="online-text">ONLINE</h2>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="log-pannel">
+								<textarea id="log-frame" rows="5" readonly></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="function-pannel">
+							<div class="col-xs-4">
+								<h2 class="sub-title pull-left">設定電源</h2>
+							</div>
+							<div class="col-xs-2 power-group">
+								<div class="radio-inline power-radio">
+									<label class="active"><input id="power-radio-0" type="radio" name="power-radio" checked="">開機</label>
+								</div>
+							</div>
+							<div class="col-xs-2 power-group">
+								<div class="radio-inline power-radio">
+									<label><input id="power-radio-1" type="radio" name="power-radio">關機</label>
+								</div>
+							</div>
+							<div class="col-xs-3 col-xs-push-1">
+								<h2 class="sub-title pull-right"><span id="power-state-val">開機</span></h2>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="function-pannel">
+							<div class="col-xs-4">
+								<h2 class="sub-title pull-left">室內溫度</h2>
+							</div>
+							<div class="col-xs-5">
+								<input id="inTempSlider" data-slider-id="ex1Slider" type="text" data-slider-min="0" data-slider-max="40" data-slider-step="1"
+								 data-slider-tooltip="hide" data-slider-value="36" />
+							</div>
+							<div class="col-xs-3">
+								<h2 class="sub-title pull-right"><span id="inTempSliderVal">36</span>℃</h2>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="function-pannel">
+							<div class="col-xs-4">
+								<h2 class="sub-title pull-left">設定溫度</h2>
+							</div>
+							<div class="col-xs-5">
+								<input id="airConTempSlider" data-slider-id="ex1Slider" type="text" data-slider-min="16" data-slider-max="32" data-slider-step="1"
+								 data-slider-tooltip="hide" data-slider-value="28" />
+							</div>
+							<div class="col-xs-3">
+								<h2 class="sub-title pull-right"><span id="airConTempSliderVal">28</span>℃</h2>
+							</div>
+						</div>
+					</div>
+					<!--div class="col-sm-12">
+							<h2 class="sub-title pull-left">設定模式</h2>
+							<h2 class="sub-title pull-right">冷氣</h2>
+						</div-->
+					<div class="row">
+						<div class="function-pannel">
+							<div class="col-xs-4">
+								<h2 class="sub-title pull-left">設定風速</h2>
+							</div>
+							<div class="col-xs-2 fan-group">
+								<div class="radio-inline fan-radio">
+									<label class="radio-label active"><input id="fan-radio-0" type="radio" name="fan-radio" checked="">自動</label>
+								</div>
+								<div class="radio fan-radio">
+									<label class="radio-label"><input id="fan-radio-1" type="radio" name="fan-radio">強</label>
+								</div>
+							</div>
+							<div class="col-xs-2  fan-group">
+								<div class="radio-inline fan-radio">
+									<label class="radio-label"><input id="fan-radio-2" type="radio" name="fan-radio">中</label>
+								</div>
+								<div class="radio fan-radio">
+									<label class="radio-label"><input id="fan-radio-3" type="radio" name="fan-radio">弱</label>
+								</div>
+							</div>
+							<div class="col-xs-3 col-xs-push-1">
+								<h2 class="sub-title pull-right"><span id="fan-state-val">自動</span></h2>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 right-pannel">
+					<div class="row">
+						<div class="device-pannel">
+							<div class="col-xs-4 pull-left">
+								<h4 class="sub-heading">設備ID (永久) : </h4>
+							</div>
+							<div class="col-xs-8 device-input">
+								<div class="input-group">
+									<input type="text" id="device-id" class="form-control" value="01EA33ED1122" readonly>
+									<span class="input-group-btn">
+        						<button class="btn btn-default" type="button" onclick="renewId()">重新生成</button>
+   								</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="device-pannel">
+							<div class="col-xs-4 pull-left">
+								<h4 class="sub-heading">會話金鑰 : </h4>
+							</div>
+							<div class="col-xs-8 device-input">
+								<div class="input-group">
+									<input type="text" id="device-key" class="form-control" value="" readonly>
+									<span class="input-group-btn">
+        						<button class="btn btn-default" type="button" onclick="renewKey()">重新配對</button>
+   								</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="device-pannel">
+							<div class="col-xs-4 pull-left">
+								<h4 class="sub-heading">伺服器位置 : </h4>
+							</div>
+							<div class="col-xs-8 device-input">
+								<div class="input-group">
+									<input type="text" class="form-control" value="ws://sampo.tih.tw:8080/json">
+									<span class="input-group-btn">
+        						<button class="btn btn-default" id="network-button" type="button" onclick="toogleNetwork()">中斷網路</button>
+   								</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<button class="btn btn-default cut-electricity" type="button" onclick="toogleElectricity()">中斷電力</button>
+					<div class="row">
+						<div class="col-xs-6 pull-left">
+							<div class="remote-pannel">
+								<div class="remote-screen">
+									<div class="remote-temp">
+										<h1 class="temp-text"><span id="remote-temp-value">28</span></h1>
+									</div>
+									<!--div class="remote-info">
+										<h4>冷氣</h4>
+										<h4>冷氣</h4>
+										<h4>冷氣</h4>
+										<h4>冷氣</h4>
+									</div-->
+									<hr class="remote-divider">
+									<div class="remote-fan">
+										<h4>風速</h4>
+									</div>
+									<div class="remote-fan-group">
+									<span class="remote-fan-level" id="remote-fan-0">自動</span>
+									<span class="remote-fan-level" id="remote-fan-1" style="opacity:0.1">強</span>
+									<span class="remote-fan-level" id="remote-fan-2" style="opacity:0.1">中</span>
+									<span class="remote-fan-level" id="remote-fan-3" style="opacity:0.1">弱</span>
+									</div>
+								</div>
+								<div class="row remote-group">
+									<button class="btn btn-default remote-button pull-left" type="button" onclick="tooglePower()">電源</button>
+									<button class="btn btn-default remote-button pull-right" type="button" onclick="warnUp()">增溫</button>
+								</div>
+								<div class="row remote-group">
+									<button class="btn btn-default remote-button pull-left" type="button" onclick="toogleFan()">風速</button>
+									<button class="btn btn-default remote-button pull-right" type="button" onclick="coolDown()">降溫</button>
+								</div>
+								<!--div class="row remote-group">
+									<button class="btn btn-default remote-button pull-left" type="button">功能</button>
+								</div-->
+							</div>
+						</div>
+						<div class="col-xs-6 pull-right">
+							<div class="simu-intro">
+								<h4>簡易說明：</h4>
+								<h4>請在MaidWhite 註冊帳號，註冊後將此設備加入設備列表中。加入完成後可利用MaidWhite APP 進行確認</h4>
+								<br />
+								<h4>左上角為事件log, 此區log 將會同步於console 中記載，左下方為通用之設備設定，未來可能根據型號有所不同
+								</h4>
+								<br />
+								<h4>右上角為此設備相關之資訊，模擬器部分採用設備ID+會話金鑰進行綁定。 中斷網路模擬設備端斷開網路的狀況，要注意的是，由於技術限制，無法模擬Timeout 導致斷網的狀況，請自行拔掉網路線(ry</h4>
+								<h4>中斷電力部分則使用者家中停電，或是設備插頭被拔掉的狀況，與關機不同。</h4>
+								<br />
+								<h6>Copyright © 2017 TIH All rights reserved</h6>
+								<h6>Version: 0.1-draft</h6>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
