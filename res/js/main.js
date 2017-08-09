@@ -7,7 +7,17 @@ var device_id = "01EA33ED1122";
 var key = "";
 var sampoSocket = new WebSocket(server_ip);
 
-var is_server_ip_correct = false
+var is_server_ip_correct = true
+
+
+function send(sampoSocket, msg){
+	try{
+		sampoSocket.send(JSON.stringify(msg));
+	}catch(e){
+		log(e);
+		is_server_ip_correct = false;
+	}
+}
 
 sampoSocket.onmessage = function (e) {
 	console.log(e.data);
@@ -151,8 +161,9 @@ function init() {
 	if(!server_ip.startsWith("ws:")){
 		is_server_ip_correct = true;
 	}
-	
+
 	connect(device_id, key);
+
 	log("Connection established!");
 	
 }
@@ -345,9 +356,7 @@ function connect(device_id, token) {
 		path: "/2/device" + device_id,
 		authorization: token
 	}
-	if(is_server_ip_correct){
-		sampoSocket.send(JSON.stringify(msg));
-	}
+	send(sampoSocket, msg);
 }
 
 function setPower(on) {
@@ -358,9 +367,7 @@ function setPower(on) {
 			"power_status": on
 		}
 	}
-	if(is_server_ip_correct){
-		sampoSocket.send(JSON.stringify(msg));
-	}
+	send(sampoSocket, msg);
 	log("set device " + device_id + " power to " + on);
 }
 
@@ -372,9 +379,7 @@ function setOnline(on) {
 			"online": on
 		}
 	}
-	if(is_server_ip_correct){
-		sampoSocket.send(JSON.stringify(msg));
-	}
+	send(sampoSocket, msg);
 	log("set device " + device_id + " online to " + on);
 }
 
@@ -386,9 +391,7 @@ function setFanLevel(value) {
 			"fan_level": value
 		}
 	}
-	if(is_server_ip_correct){
-		sampoSocket.send(JSON.stringify(msg));
-	}
+	send(sampoSocket, msg);
 	log("set device " + device_id + " fan level to " + value);
 }
 
@@ -400,9 +403,7 @@ function setTemperature(value) {
 			"target_temperature_range": [value, value]
 		}
 	}
-	if(is_server_ip_correct){
-		sampoSocket.send(JSON.stringify(msg));
-	}
+	send(sampoSocket, msg);
 	log("set device " + device_id + " temperature to " + value);
 }
 
@@ -410,6 +411,7 @@ function log(str) {
 	var timestamp = getTimeStamp();
 	var errmsg = "";
 	if(!is_server_ip_correct){
+		is_server_ip_correct = true;
 		errmsg += "[fake mode, please set the correct server_ip]";
 	}
 	$('#log-frame').val($('#log-frame').val() + timestamp + errmsg + " " + str + "\n");
