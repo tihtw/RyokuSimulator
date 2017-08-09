@@ -1,4 +1,4 @@
-var remote_temperature = 28;
+﻿var remote_temperature = 28;
 var remote_power = true;
 var remote_fan_level = 0;
 
@@ -414,5 +414,5 @@ function log(str) {
 	}
 	$('#log-frame').val($('#log-frame').val() + timestamp + errmsg + " " + str + "\n");
 	$('#log-frame').scrollTop($('#log-frame')[0].scrollHeight);
-	}
+	
 }
