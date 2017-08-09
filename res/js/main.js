@@ -5,7 +5,7 @@ var remote_fan_level = 0;
 var server_ip = "ws://sampo.tih.tw:8080/json";
 var device_id = "01EA33ED1122";
 var key = "";
-var sampoSocket;
+var sampoSocket = new WebSocket(server_ip);
 
 sampoSocket.onmessage = function (e) {
 	console.log(e.data);
@@ -144,19 +144,12 @@ function init() {
 	$("#fan-state-val").text('自動');
 	$('#log-frame').val('');
 
-	checkserver_ip();
-	connect(device_id, key);
-	log("Connection established!");
-}
-
-function checkserver_ip(){
 	if(server_ip.startsWith("ws:")){
-			log("Error: server_ip shouldn't start with \"ws://\", use \"wss://\" instead\n");
+		log("Error: server_ip shouldn't start with \"ws://\", use \"wss://\" instead\n");
 	}else{
-		sampoSocket = new WebSocket(server_ip);
+		connect(device_id, key);
+		log("Connection established!");
 	}
-
-
 }
 
 
