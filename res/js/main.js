@@ -7,6 +7,8 @@ var device_id = "01EA33ED1122";
 var key = "";
 var sampoSocket = new WebSocket(server_ip);
 
+var is_server_ip_correct = false
+
 sampoSocket.onmessage = function (e) {
 	console.log(e.data);
 	var json = JSON.parse(e.data);
@@ -74,6 +76,8 @@ sampoSocket.onopen = function (e) {
 	renewKey();
 	init();
 };
+
+
 
 $(document).ready(function () {
 	$('input:radio[id^="power-radio-"]').on("change", function (event) {
@@ -147,9 +151,12 @@ function init() {
 	if(server_ip.startsWith("ws:")){
 		log("Error: server_ip shouldn't start with \"ws://\", use \"wss://\" instead\n");
 	}else{
-		connect(device_id, key);
-		log("Connection established!");
+		is_server_ip_correct = true;
 	}
+	
+	connect(device_id, key);
+	log("Connection established!");
+	
 }
 
 
@@ -340,7 +347,9 @@ function connect(device_id, token) {
 		path: "/2/device" + device_id,
 		authorization: token
 	}
-	sampoSocket.send(JSON.stringify(msg));
+	if(is_server_ip_correct){
+		sampoSocket.send(JSON.stringify(msg));
+	}
 }
 
 function setPower(on) {
@@ -351,7 +360,9 @@ function setPower(on) {
 			"power_status": on
 		}
 	}
-	sampoSocket.send(JSON.stringify(msg));
+	if(is_server_ip_correct){
+		sampoSocket.send(JSON.stringify(msg));
+	}
 	log("set device " + device_id + " power to " + on);
 }
 
@@ -363,7 +374,9 @@ function setOnline(on) {
 			"online": on
 		}
 	}
-	sampoSocket.send(JSON.stringify(msg));
+	if(is_server_ip_correct){
+		sampoSocket.send(JSON.stringify(msg));
+	}
 	log("set device " + device_id + " online to " + on);
 }
 
@@ -375,7 +388,9 @@ function setFanLevel(value) {
 			"fan_level": value
 		}
 	}
-	sampoSocket.send(JSON.stringify(msg));
+	if(is_server_ip_correct){
+		sampoSocket.send(JSON.stringify(msg));
+	}
 	log("set device " + device_id + " fan level to " + value);
 }
 
@@ -387,7 +402,9 @@ function setTemperature(value) {
 			"target_temperature_range": [value, value]
 		}
 	}
-	sampoSocket.send(JSON.stringify(msg));
+	if(is_server_ip_correct){
+		sampoSocket.send(JSON.stringify(msg));
+	}
 	log("set device " + device_id + " temperature to " + value);
 }
 
