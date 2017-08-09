@@ -144,9 +144,20 @@ function init() {
 	$("#fan-state-val").text('自動');
 	$('#log-frame').val('');
 
+	checkserver_ip();
 	connect(device_id, key);
 	log("Connection established!");
 }
+
+function checkserver_ip(){
+	if(server_ip.startsWith("ws:")){
+			log("Error: server_ip shouldn't start with \"ws://\", use \"wss://\" instead\n");
+	}
+
+
+}
+
+
 function renewId() {
 	var id = "";
 	var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
