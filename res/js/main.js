@@ -5,7 +5,7 @@ var remote_fan_level = 0;
 var server_ip = "ws://sampo.tih.tw:8080/json";
 var device_id = "01EA33ED1122";
 var key = "";
-var sampoSocket = new WebSocket(server_ip);
+var sampoSocket;
 
 sampoSocket.onmessage = function (e) {
 	console.log(e.data);
@@ -152,6 +152,8 @@ function init() {
 function checkserver_ip(){
 	if(server_ip.startsWith("ws:")){
 			log("Error: server_ip shouldn't start with \"ws://\", use \"wss://\" instead\n");
+	}else{
+		sampoSocket = new WebSocket(server_ip);
 	}
 
 
