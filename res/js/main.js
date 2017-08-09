@@ -410,7 +410,7 @@ function log(str) {
 	var timestamp = getTimeStamp();
 	var errmsg = ""
 	if(!is_server_ip_correct){
-		errmsg += "[fake mode, please set the correct server_ip]"
+		errmsg += "[fake mode], please set the correct server_ip]";
 	}
 	$('#log-frame').val($('#log-frame').val() + timestamp + errmsg + " " + str + "\n");
 	$('#log-frame').scrollTop($('#log-frame')[0].scrollHeight);
