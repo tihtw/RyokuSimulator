@@ -408,7 +408,7 @@ function setTemperature(value) {
 
 function log(str) {
 	var timestamp = getTimeStamp();
-	var errmsg = ""
+	var errmsg = "";
 	if(!is_server_ip_correct){
 		errmsg += "[fake mode], please set the correct server_ip]";
 	}
