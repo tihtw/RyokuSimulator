@@ -148,9 +148,7 @@ function init() {
 	$("#fan-state-val").text('自動');
 	$('#log-frame').val('');
 
-	if(server_ip.startsWith("ws:")){
-		log("Error: server_ip shouldn't start with \"ws://\", use \"wss://\" instead\n");
-	}else{
+	if(!server_ip.startsWith("ws:")){
 		is_server_ip_correct = true;
 	}
 	
@@ -410,6 +408,11 @@ function setTemperature(value) {
 
 function log(str) {
 	var timestamp = getTimeStamp();
-	$('#log-frame').val($('#log-frame').val() + timestamp + " " + str + "\n");
+	var errmsg = ""
+	if(!is_server_ip_correct){
+		errmsg += "[fake mode, please set the correct server_ip]"
+	}
+	$('#log-frame').val($('#log-frame').val() + timestamp + errmsg + " " + str + "\n");
 	$('#log-frame').scrollTop($('#log-frame')[0].scrollHeight);
+	}
 }
