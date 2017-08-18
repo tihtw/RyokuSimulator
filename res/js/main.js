@@ -5,87 +5,28 @@ var remote_fan_level = 0;
 var server_ip = "ws://sampo.tih.tw:8080/json";
 var device_id = "01EA33ED1122";
 var key = "";
-var sampoSocket = new WebSocket(server_ip);
+var connection;
+
+var myState = {
+	power_status: false,
+	fan_level: -1,
+
+};
+
 
 var is_server_ip_correct = true
 
 
-function send(sampoSocket, msg){
+function send(connection, msg){
+	console.log("send: " + JSON.stringify(msg, null, 4));
 	try{
-		sampoSocket.send(JSON.stringify(msg));
+		connection.send(JSON.stringify(msg));
 	}catch(e){
 		log(e);
 		is_server_ip_correct = false;
 	}
 }
 
-sampoSocket.onmessage = function (e) {
-	console.log(e.data);
-	var json = JSON.parse(e.data);
-	var data = json["data"];
-	if (data["power_status"] != undefined) {
-		var status = (data["power_status"] == "true") ? true : false;
-		if (status) {
-			$("#power-state-val").text('開機');
-			$('input[id="power-radio-0"]').prop("checked", true);
-		} else {
-			$("#power-state-val").text('關機');
-			$('input[id="power-radio-1"]').prop("checked", true);
-		}
-		log("set device " + device_id + " power to " + status);
-	}
-	if (data["online"] != undefined) {
-		var online = (data["online"] == "true") ? true : false;
-		if (online) {
-			$('#online-text').text('ONLINE');
-			$('.power-light').attr('src', 'res/images/online.png');
-			$('#network-button').text("中斷網路");
-			$('.cut-electricity').text("中斷電力");
-		} else {
-			$('#online-text').text('OFFLINE');
-			$('.power-light').attr('src', 'res/images/offline.png');
-			$('#network-button').text("連接網路");
-			$('.cut-electricity').text("恢復電力");
-		}
-		log("set device " + device_id + " online to " + online);
-	}
-	if (data["fan_level"] != undefined) {
-		var level = Number(data["fan_level"]);
-		switch (level) {
-			case -1:
-				$("#fan-state-val").text('自動');
-				$('input[id="fan-radio-0"]').prop("checked", true);
-				break;
-			case 0.1:
-				$("#fan-state-val").text('強');
-				$('input[id="fan-radio-1"]').prop("checked", true);
-				break;
-			case 0.5:
-				$("#fan-state-val").text('中');
-				$('input[id="fan-radio-2"]').prop("checked", true);
-				break;
-			case 1:
-				$("#fan-state-val").text('弱');
-				$('input[id="fan-radio-3"]').prop("checked", true);
-				break;
-			default:
-				break;
-		}
-		log("set device " + device_id + " fan level to " + level);
-	}
-	if (data["target_temperature_range"] != undefined) {
-		var array = data["target_temperature_range"].replace('[','').replace(']','').split(',').map(Number);
-		var temperature = array[0];
-			$("#airConTempSliderVal").text(temperature);
-			$('#airConTempSlider').slider('setValue', temperature);
-			log("set device " + device_id + " temperature to " + temperature);
-	}
-};
-sampoSocket.onopen = function (e) {
-	renewId();
-	renewKey();
-	init();
-};
 
 
 
@@ -190,20 +131,113 @@ function renewKey() {
 }
 
 function toogleNetwork() {
-	if ($('#online-text').text() == "ONLINE") {
-		// ONLINE -> OFFLINE
-		$('.cut-electricity').text("恢復電力");
-		$('#online-text').text('OFFLINE');
-		$('.power-light').attr('src', 'res/images/offline.png');
-		$('#network-button').text("連接網路");
-		setOnline(false);
-	} else {
+	if(typeof connection == "undefined"){
+		openConnection();
+		return;
+	}
+	// ready state can br CONNECTING, OPEN, CLOSING, CLOSED
+	// https://developer.mozilla.org/zh-TW/docs/WebSockets/WebSockets_reference/WebSocket
+	if(connection.readyState == WebSocket.OPEN){
+		closeConnection();
+	}else{
+		openConnection();
+	}
+}
+
+function closeConnection(){
+	connection.close();
+
+}
+
+function openConnection(){
+	var host = $("#server-host").val();
+	console.log(host);
+	connection = new WebSocket(host);
+
+	connection.onmessage = function (e) {
+		console.log("onmessage:" + e.data);
+		var json = JSON.parse(e.data);
+		var data = json["data"];
+		if (data["power_status"] != undefined) {
+			myState.power_status = (data["power_status"] == "true") ? true : false;
+			if (myState.power_status) {
+				$("#power-state-val").text('開機');
+				$('input[id="power-radio-0"]').prop("checked", true);
+			} else {
+				$("#power-state-val").text('關機');
+				$('input[id="power-radio-1"]').prop("checked", true);
+			}
+			log("set device " + device_id + " power to " + status);
+		}
+		if (data["online"] != undefined) {
+			var online = (data["online"] == "true") ? true : false;
+			if (online) {
+				$('#online-text').text('ONLINE');
+				$('.power-light').attr('src', 'res/images/online.png');
+				$('#network-button').text("中斷網路");
+				$('.cut-electricity').text("中斷電力");
+			} else {
+				$('#online-text').text('OFFLINE');
+				$('.power-light').attr('src', 'res/images/offline.png');
+				$('#network-button').text("連接網路");
+				$('.cut-electricity').text("恢復電力");
+			}
+			log("set device " + device_id + " online to " + online);
+		}
+		if (data["fan_level"] != undefined) {
+			myState.fan_level = Number(data["fan_level"]);
+			switch (myState.fan_level) {
+				case -1:
+					$("#fan-state-val").text('自動');
+					$('input[id="fan-radio-0"]').prop("checked", true);
+					break;
+				case 0.9:
+					$("#fan-state-val").text('強');
+					$('input[id="fan-radio-1"]').prop("checked", true);
+					break;
+				case 0.6:
+					$("#fan-state-val").text('中');
+					$('input[id="fan-radio-2"]').prop("checked", true);
+					break;
+				case 0.3:
+					$("#fan-state-val").text('弱');
+					$('input[id="fan-radio-3"]').prop("checked", true);
+					break;
+				default:
+					break;
+			}
+			log("set device " + device_id + " fan level to " + level);
+		}
+		if (data["target_temperature_range"] != undefined) {
+			var array = data["target_temperature_range"].replace('[','').replace(']','').split(',').map(Number);
+			var temperature = array[0];
+				$("#airConTempSliderVal").text(temperature);
+				$('#airConTempSlider').slider('setValue', temperature);
+				log("set device " + device_id + " temperature to " + temperature);
+		}
+	};
+	connection.onopen = function (e) {
+		// renewId();
+		// renewKey();
+		init();
+
 		// OFFLINE -> ONLINE
 		$('.cut-electricity').text("中斷電力");
 		$('#online-text').text('ONLINE');
 		$('.power-light').attr('src', 'res/images/online.png');
 		$('#network-button').text("中斷網路");
-		setOnline(true);
+		// uploadFanLevel();
+		// setOnline(true);
+	};
+	connection.onclose = function(e) {
+
+		// ONLINE -> OFFLINE
+		$('.cut-electricity').text("恢復電力");
+		$('#online-text').text('OFFLINE');
+		$('.power-light').attr('src', 'res/images/offline.png');
+		$('#network-button').text("連接網路");
+		// setOnline(false);
+
 	}
 }
 
@@ -345,18 +379,26 @@ function getTimeStamp() {
 	var date = new Date();
 	var year = date.getFullYear();
 	var monthIndex = date.getMonth();
+	var monthString = "" + monthIndex;
+	if(monthIndex < 10){
+		monthString = "0" + monthString;
+	}
 	var day = date.getDate();
+	var dayString = "" + day;
+	if(day < 10){
+		dayString = "0" + dayString;
+	}
 
 	var timestamp = new Date().toLocaleTimeString();
-	return "[" + year + "-" + monthIndex + "-" + day + " " + timestamp + "]";
+	return "[" + year + "-" + monthString + "-" + dayString + " " + timestamp + "]";
 }
 function connect(device_id, token) {
 	var msg = {
 		method: "connect",
-		path: "/2/device" + device_id,
+		path: "/2/device/" + device_id,
 		authorization: token
 	}
-	send(sampoSocket, msg);
+	send(connection, msg);
 }
 
 function setPower(on) {
@@ -367,7 +409,7 @@ function setPower(on) {
 			"power_status": on
 		}
 	}
-	send(sampoSocket, msg);
+	send(connection, msg);
 	log("set device " + device_id + " power to " + on);
 }
 
@@ -379,20 +421,25 @@ function setOnline(on) {
 			"online": on
 		}
 	}
-	send(sampoSocket, msg);
+	send(connection, msg);
 	log("set device " + device_id + " online to " + on);
 }
 
 function setFanLevel(value) {
+	myState.fan_level = value
+	uploadFanLevel();
+}
+
+function uploadFanLevel() {
 	var msg = {
 		method: "post",
 		path: "/2/device/" + device_id + "/perpheral/_",
 		data: {
-			"fan_level": value
+			"fan_level": myState.fan_level
 		}
 	}
-	send(sampoSocket, msg);
-	log("set device " + device_id + " fan level to " + value);
+	send(connection, msg);
+	log("send device " + device_id + " fan level to " + myState.fan_level);
 }
 
 function setTemperature(value) {
@@ -403,7 +450,7 @@ function setTemperature(value) {
 			"target_temperature_range": [value, value]
 		}
 	}
-	send(sampoSocket, msg);
+	send(connection, msg);
 	log("set device " + device_id + " temperature to " + value);
 }
 
